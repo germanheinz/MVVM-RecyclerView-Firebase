@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MVVM_RecyclerView_Firebase_example.iml" filepath="$PROJECT_DIR$/MVVM_RecyclerView_Firebase_example.iml" group="MVVM_RecyclerView_Firebase_example" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="MVVM_RecyclerView_Firebase_example/app" />
+    </modules>
+  </component>
+</project>
