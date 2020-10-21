@@ -3,6 +3,7 @@ package com.example.mvvm_recyclerview_firebase_example
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
@@ -31,10 +32,16 @@ class MainActivity : AppCompatActivity() {
 
         observeData()
 
+
+
     }
 
     fun observeData(){
+        //Adding Shimmer
+        shimmer_view_container.startShimmer()
         viewModel.fetchUserData().observe(this, Observer {
+            shimmer_view_container.stopShimmer()
+            shimmer_view_container.visibility = View.GONE
             adapter.setListData(it)
             adapter.notifyDataSetChanged()
         })
