@@ -7,10 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_row.view.*
+import java.lang.IllegalArgumentException
 
-class MainAdapter(private val context: Context) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(private val context: Context, private val onClickListenner : OnClickListenner) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var dataList = mutableListOf<User>()
+
+    // TODO - IMPLEMENT INTERFACE CLICK LISTENNER - 1
+    interface OnClickListenner{
+        fun onImageClick(image : String)
+        fun onItemClick(name : String)
+    }
 
     fun setListData(data : MutableList<User>){
         dataList = data
@@ -33,15 +40,26 @@ class MainAdapter(private val context: Context) : RecyclerView.Adapter<MainAdapt
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        val user = dataList[position]
-        holder.bindView(user)
+
+        // TODO - IMPLEMENT CLICK LISTENNER - 2 - PASS VARIABLE
+        when (holder){
+
+            is MainViewHolder -> holder.bindView(dataList[position], position)
+
+            else -> throw IllegalArgumentException("***")
+        }
     }
 
     // TODO 3 - CREATE A HOLDER CLASS. AND GIVE IT THE ITEMS
     inner class MainViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
         //TODO 4 - BIND VALUES IN THE ITEM VIEW
-        fun bindView(user: User){
+        fun bindView(user: User, position: Int){
+
+            // TODO - IMPLEMENT CLICK LISTENNER - 2 - IMPLEMENT INTERFACE
+            itemView.circleImageView.setOnClickListener { onClickListenner.onImageClick(user.imageUrl) }
+            itemView.setOnClickListener { onClickListenner.onItemClick(user.name) }
+
             Glide.with(context).load(user.imageUrl).into(itemView.circleImageView)
             itemView.text_title.text       = user.name
             itemView.text_description.text = user.description
