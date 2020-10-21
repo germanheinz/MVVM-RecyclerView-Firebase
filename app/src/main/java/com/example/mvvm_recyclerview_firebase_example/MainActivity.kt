@@ -3,6 +3,9 @@ package com.example.mvvm_recyclerview_firebase_example
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -10,6 +13,9 @@ class MainActivity : AppCompatActivity() {
 
     // TODO 6 - DECLARE ADAPTER
     private lateinit var adapter: MainAdapter
+
+    //LAZY SAY,  I'M GOING TO INITIALIZE YOU WHEN I NEED IT
+    private val viewModel by lazy {ViewModelProviders.of(this).get(MainViewModel::class.java)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,14 +29,14 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
 
-        val userList = mutableListOf<User>()
-        userList.add(User("https://static.wikia.nocookie.net/chespirito/images/9/93/El-chavo-del-8.jpg/revision/latest/top-crop/width/360/height/450?cb=20140212023312&path-prefix=es","User","testing MVVM - recycler view"))
-        userList.add(User("https://www.w3schools.com/howto/img_avatar.png","User","testing MVVM - recycler view"))
-        userList.add(User("https://www.w3schools.com/howto/img_avatar.png","User","testing MVVM - recycler view"))
-        userList.add(User("https://www.w3schools.com/howto/img_avatar.png","User","testing MVVM - recycler view"))
+        observeData()
 
-        adapter.setListData(userList)
-        adapter.notifyDataSetChanged()
+    }
 
+    fun observeData(){
+        viewModel.fetchUserData().observe(this, Observer {
+            adapter.setListData(it)
+            adapter.notifyDataSetChanged()
+        })
     }
 }
